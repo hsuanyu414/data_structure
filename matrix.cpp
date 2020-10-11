@@ -18,12 +18,12 @@ int main()
     for(int i = 0 ; i < non ; i ++)
         cin >> matrix_1[i+1][0] >> matrix_1[i+1][1] >> matrix_1[i+1][2] ;
     
-    cout << " row " << " col " << " val " << endl ;
     
+    cout << " row " << " col " << " val " << endl ;
     for(int i = 0 ; i < non+1 ; i ++)
     {
         for(int j = 0 ; j < 3 ; j ++)
             printf("%3d  " , matrix_1[i][j]);
         cout << "\n" ;
-    }
+    }//print out the spare matrix you type in
 }
