@@ -7,6 +7,7 @@ int main()
     int choice = 0 ;
     count << "請輸入你想要的功能\n1. 由鍵盤輸入一個 matrix M\n"
 
+    //1. type in a matrix
     int row,col,non ;
     cout << "請輸入row、column與non的數量(中間以空格隔開)" << endl ;
     cin >> row >> col >> non;
@@ -18,12 +19,23 @@ int main()
     for(int i = 0 ; i < non ; i ++)
         cin >> matrix_1[i+1][0] >> matrix_1[i+1][1] >> matrix_1[i+1][2] ;
     
-    
+    //2.print out the spare matrix you type in
     cout << " row " << " col " << " val " << endl ;
     for(int i = 0 ; i < non+1 ; i ++)
     {
         for(int j = 0 ; j < 3 ; j ++)
             printf("%3d  " , matrix_1[i][j]);
         cout << "\n" ;
-    }//print out the spare matrix you type in
+    }//by spare matrix
+
+    //3.print out the submatrix by given row and column
+    int element_r , element_c ;
+    cout << "請輸入你想知道的row與column" << endl ;
+    cin >> element_r >> element_c ;
+    for(int i = 1 ; i  < non+1 ; i ++)
+    {
+        cout << "in progress" << endl ;
+    }
+
+    //4.print out the tranfer matrix of M
 }
