@@ -3,20 +3,52 @@
 
 using namespace std ;
 
+
+
 void print_matrix(int (*matrix)[3])
 {
     int row = matrix[0][0] ;
     int col = matrix[0][1] ;
     int non = matrix[0][2] ;
-    for(int i = 1 ; i < row+1 ; i ++)
+    int k = 1 ;
+    for(int i = 0 ; i < row ; i ++)
     {
         for(int j = 0 ; j < col ; j ++)
         {
-            cout << "0";
+            if(k <= matrix[0][2] && i == matrix[k][0] && j == matrix[k][1])
+            {
+                printf("%3d ",matrix[k][2]);
+                k ++ ;
+            }
+            else
+            {
+                cout << "  0 " ;
+            }
+            
         }
         cout << "\n" ;
     }
 }
+//2. print out the matrix you type in
+
+void t_matrix(int (*matrix)[3])
+{
+    int row = matrix[0][0] ;
+    int col = matrix[0][1] ;
+    int non = matrix[0][2] ;
+    int transpose[row][col];
+    for(int i = 0 ; i < row ; i ++)
+        for(int j = 0 ; j < col ; j ++)
+            transpose[i][j] = 0 ;
+    for(int i = 0 ; i < matrix[non][1] ; i ++)
+    {
+        for(int j = 1 ; j < non+1 ; j ++)
+        {
+            cout << "Hello";
+        }
+    }
+}
+//4. show the tranpose of the matrix
 
 int main()
 {
@@ -25,7 +57,13 @@ int main()
 
     int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
 
-    print_matrix(matrix_a);
+    int (*m[5])[3] = {&matrix_a[0],&matrix_a[0],&matrix_a[0],&matrix_a[0],&matrix_a[0]} ;
+    char 
+    
+
+    print_matrix(m[0]);
+
+    //print_matrix(matrix_a);
 
     return 0 ;
 
@@ -60,4 +98,5 @@ int main()
     }
 
     //4.print out the tranfer matrix of M
+
 }
