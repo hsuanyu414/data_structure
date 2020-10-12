@@ -1,11 +1,33 @@
 #include <bits/stdc++.h>
+#include <stdio.h>
 
 using namespace std ;
+
+void print_matrix(int (*matrix)[3])
+{
+    int row = matrix[0][0] ;
+    int col = matrix[0][1] ;
+    int non = matrix[0][2] ;
+    for(int i = 1 ; i < row+1 ; i ++)
+    {
+        for(int j = 0 ; j < col ; j ++)
+        {
+            cout << "0";
+        }
+        cout << "\n" ;
+    }
+}
 
 int main()
 {
     int choice = 0 ;
-    count << "請輸入你想要的功能\n1. 由鍵盤輸入一個 matrix M\n"
+    cout << "請輸入你想要的功能\n1. 由鍵盤輸入一個 matrix M\n" ;
+
+    int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
+
+    print_matrix(matrix_a);
+
+    return 0 ;
 
     //1. type in a matrix
     int row,col,non ;
