@@ -24,7 +24,7 @@ void print_menu()
     cout << "7. 離開" << endl ;
 }
 
-void print_matrix(int (*matrix)[3])
+void print_matrix(int (*matrix)[3] )
 {
     int row = matrix[0][0] ;
     int col = matrix[0][1] ;
@@ -71,7 +71,7 @@ int main()
 	int choice = 0 ;
 
     int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
-
+    
     int (*m[128])[3] = {0} ;
     string name[128];
     int matrix_count = 0 ;
@@ -101,18 +101,28 @@ int main()
 			int row,col,non ;
 		    cout << "請輸入row、column與non的數量(中間以空格隔開)" << endl ;
 		    cin >> row >> col >> non;
-		    int matrix[non+1][3];
-		    matrix[0][0] = row ;
-		    matrix[0][1] = col ;
-		    matrix[0][2] = 0 ;
+		    int matrix[non+1][3];//如果说建中校庆纪念品所以你买多少钱帽t预购价660然后你买160哈哈哈哈哈嗯 其实我也没便宜多好我对我对可疑开到580
+		    matrix[0][0] = row ;//你所原购价的部分吗 我在想要开多少 帽t 还行吧 还有短t 还有风衣 没差啦 长t 后面有字的 字体没有对到我的频率
+		    matrix[0][1] = col ;//你没有嘻哈魂 这礼拜换谁 过一个礼拜了 哇哈哈哈哈哈哈哈哈 礼拜五好像没事也 好像可以可是我的台会有人看也 会有外人
+		    matrix[0][2] = 0 ;//会有switch好朋友想一下我想一下很多看的都是国外的拿什么dj台 那个呀
 		    if(non)
 		        cout << "請輸入你的陣列(以稀疏矩陣方式輸入)" << endl ;
 		    for(int i = 0 ; i < non ; i ++)
 		        cin >> matrix[i+1][0] >> matrix[i+1][1] >> matrix[i+1][2] ;
-		    m[matrix_count] = &matrix[0] ;
-		    print_matrix(m[0]);
+		    int (*temp)[3] = (int(*)[3])malloc(sizeof(int)*4*3);
+		    memcpy(temp,matrix,sizeof(int)*12);
+		    m[matrix_count] = temp ;
+
+		    cout << "temp" << endl ;
+		    print_matrix(temp) ;
+		    cout << "m[0]" << endl ;
+		    print_matrix(m[0]) ;
+		    //return 0 ;
+
+		    //m[matrix_count] = &p ;
+		    
 		    cout << "--------" << endl ;
-		    print_matrix(matrix);
+		    //print_matrix(matrix);
 			matrix_count ++ ;  		
     		//1. type in a matrix
     	}
@@ -122,8 +132,7 @@ int main()
     		cout << "請輸入你想印出的陣列" << endl ;
     		string input ;
     		cin >> input ;
-    		print_matrix(m[0]);
-    		//print_matrix(m[matrix_index(name,input)]) ;
+    		print_matrix(m[matrix_index(name,input)]) ;
     	}
     	else if(choice == 7)
     	{
@@ -134,8 +143,6 @@ int main()
     }
     
     return 0 ;
-
-    print_matrix(m[0]);
 
     //print_matrix(matrix_a)
 
