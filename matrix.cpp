@@ -3,7 +3,11 @@
 
 using namespace std ;
 
-int matrix_index(string name[128] , string input)
+
+int (*m[128])[3] = {0} ;
+string name[128];
+
+int matrix_index(string input)
 {
 	cout << "you want to find " << input << endl;
 	for(int i = 0 ; i < 128 ; i ++)
@@ -72,8 +76,6 @@ int main()
 
     int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
     
-    int (*m[128])[3] = {0} ;
-    string name[128];
     int matrix_count = 0 ;
    
     while(1)
@@ -132,7 +134,7 @@ int main()
     		cout << "請輸入你想印出的陣列" << endl ;
     		string input ;
     		cin >> input ;
-    		print_matrix(m[matrix_index(name,input)]) ;
+    		print_matrix(m[matrix_index(input)]) ;
     	}
     	else if(choice == 7)
     	{
