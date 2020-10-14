@@ -3,14 +3,18 @@
 
 using namespace std ;
 
-int matrix_index(string name[128] , string input)
+int (*m[128])[3] = {0} ;
+string name[128];
+
+
+int matrix_index(string input)
 {
 	cout << "you want to find " << input << endl;
 	for(int i = 0 ; i < 128 ; i ++)
 		if(input == name[i])
 			return i ;
-	return -1 ;
-}
+	return 0 ;
+}//for the given name to find the matrix index, if there are no matrix matched, it will return 0 as defalut.
 
 void print_menu()
 {
@@ -22,7 +26,7 @@ void print_menu()
     cout << "5. 讀入兩個 matrix M1 及 M2，做 M1 及 M2 的加法，並顯示 M1+M2 的結果" << endl ;
     cout << "6. 讀入一個 square matrix M，計算 Mk(k 為大於等於 2 的整數)，並顯示 Mk 的結果" << endl ;
     cout << "7. 離開" << endl ;
-}
+}//print out the menu.
 
 void print_matrix(int (*matrix)[3] )
 {
@@ -44,8 +48,9 @@ void print_matrix(int (*matrix)[3] )
         }
         cout << "\n" ;
     }
-}
-//2. print out the matrix you type in
+}//2. print out the matrix you type in
+
+//3.show the submatrix
 
 void t_matrix(int (*matrix)[3])
 {
@@ -56,15 +61,53 @@ void t_matrix(int (*matrix)[3])
     for(int i = 0 ; i < row ; i ++)
         for(int j = 0 ; j < col ; j ++)
             transpose[i][j] = 0 ;
-    for(int i = 0 ; i < matrix[non][1] ; i ++)
+    for(int i = 0 ; i <= matrix[non][1] ; i ++)
     {
         for(int j = 1 ; j < non+1 ; j ++)
         {
-            cout << "Hello";
+        	if(matrix[j][1]==i)
+        		transpose[i][matrix[j][0]] = matrix[j][2] ;
         }
     }
+    for(int i = 0 ; i < row ; i ++)
+    {
+    	for(int j = 0 ; j < col ; j ++)
+    		printf("%3d ", transpose[i][j]);
+    	cout << "\n" ;
+    }
+}//4.show the tranpose matrix(in progress)
+
+//5. given two matrix and do the addition
+void matrix_addition(int (*a)[3] , int (*b)[3])
+{
+	if((a[0][0]!=b[0][0])||(a[0][1]!=b[0][1]))
+	{
+		cout << "這兩個矩陣不能做加法" << endl ;
+		return ;
+	}
+	else
+	{
+		int row = a[0][0];
+		int col = a[0][1];
+		int answer[row][col] ;
+		for(int i = 0 ; i < row ; i ++)
+			for(int j = 0 ; j < col ; j++)
+				answer[i][j] = 0 ;
+		for(int i = 0 ; i < a[0][2] ; i ++)
+			answer[a[i+1][0]][a[i+1][1]] += a[i+1][2];
+		for(int i = 0 ; i < b[0][2] ; i ++)
+			answer[b[i+1][0]][b[i+1][1]] += b[i+1][2];
+		for(int i = 0 ; i < row ; i ++)
+		{
+			for(int j = 0 ; j < col ; j++)
+				printf("%3d ", answer[i][j]);
+			cout << "\n" ;
+		}
+	}
 }
-//4. show the tranpose of the matrix
+//6. given a square matrix and calculate M^k
+
+//7. exit
 
 int main()
 {
@@ -72,8 +115,6 @@ int main()
 
     int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
     
-    int (*m[128])[3] = {0} ;
-    string name[128];
     int matrix_count = 0 ;
    
     while(1)
@@ -104,19 +145,18 @@ int main()
 		    int matrix[non+1][3];//如果说建中校庆纪念品所以你买多少钱帽t预购价660然后你买160哈哈哈哈哈嗯 其实我也没便宜多好我对我对可疑开到580
 		    matrix[0][0] = row ;//你所原购价的部分吗 我在想要开多少 帽t 还行吧 还有短t 还有风衣 没差啦 长t 后面有字的 字体没有对到我的频率
 		    matrix[0][1] = col ;//你没有嘻哈魂 这礼拜换谁 过一个礼拜了 哇哈哈哈哈哈哈哈哈 礼拜五好像没事也 好像可以可是我的台会有人看也 会有外人
-		    matrix[0][2] = 0 ;//会有switch好朋友想一下我想一下很多看的都是国外的拿什么dj台 那个呀
+		    matrix[0][2] = non;//会有switch好朋友想一下我想一下很多看的都是国外的拿什么dj台 那个呀
 		    if(non)
 		        cout << "請輸入你的陣列(以稀疏矩陣方式輸入)" << endl ;
 		    for(int i = 0 ; i < non ; i ++)
 		        cin >> matrix[i+1][0] >> matrix[i+1][1] >> matrix[i+1][2] ;
+
 		    int (*temp)[3] = (int(*)[3])malloc(sizeof(int)*4*3);
 		    memcpy(temp,matrix,sizeof(int)*12);
 		    m[matrix_count] = temp ;
 
 		    cout << "temp" << endl ;
 		    print_matrix(temp) ;
-		    cout << "m[0]" << endl ;
-		    print_matrix(m[0]) ;
 		    //return 0 ;
 
 		    //m[matrix_count] = &p ;
@@ -128,11 +168,27 @@ int main()
     	}
     	else if(choice == 2)
     	{
-    		cout << "Choice 2" << endl ;
     		cout << "請輸入你想印出的陣列" << endl ;
     		string input ;
     		cin >> input ;
-    		print_matrix(m[matrix_index(name,input)]) ;
+    		print_matrix(m[matrix_index(input)]) ;
+    	}
+    	else if(choice == 4)
+    	{
+    		cout << "請輸入你想轉置的矩陣" << endl ;
+    		string input ;
+    		cin >> input ;
+    		t_matrix(m[matrix_index(input)]);
+    	}
+    	else if(choice == 5)
+    	{
+    		cout << "請輸入M1的名字" << endl ;
+    		string input_1 ;
+    		cin >> input_1 ;
+    		cout << "請輸入M2的名字" << endl ;
+    		string input_2 ;
+    		cin >> input_2 ;
+    		matrix_addition(m[matrix_index(input_1)],m[matrix_index(input_2)]);
     	}
     	else if(choice == 7)
     	{
@@ -143,14 +199,5 @@ int main()
     }
     
     return 0 ;
-
-    //print_matrix(matrix_a)
-
-
-    
-
-    //3.print out the submatrix by given row and column
-
-    //4.print out the tranfer matrix of M
 
 }
