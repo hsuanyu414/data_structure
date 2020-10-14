@@ -6,7 +6,6 @@ using namespace std ;
 int (*m[128])[3] = {0} ;
 string name[128];
 
-
 int matrix_index(string input)
 {
 	cout << "you want to find " << input << endl;
@@ -48,8 +47,60 @@ void print_matrix(int (*matrix)[3] )
         }
         cout << "\n" ;
     }
-}//2. print out the matrix you type in
+}//2. print out the matrix you type in(in sparse matrix)
 
+void submatrix(int (*matrix)[3])
+{
+	int max_row = matrix[0][0] ;
+	int max_col = matrix[0][1] ;
+	int row_print[max_row] = {0} ;
+	int col_print[max_col] = {0} ;
+
+	cout << "請輸入你想印出的子矩陣的列號(中間以空格隔開)結束請輸入-1" << endl ;
+	int input = 0 ;
+	while(1)
+	{
+		cin >> input ;
+		if(input == -1)
+			break ;
+		else if(input < max_row)
+			row_print[input] = 1 ;
+		else
+			cout << "沒有這一列" << endl ;
+	}
+	cout << "請輸入你想印出的子矩陣的行號(中間以空格隔開)結束請輸入-1" << endl ;
+	while(1)
+	{
+		cin >> input ;
+		if(input == -1)
+			break ;
+		else if(input < max_col)
+			col_print[input] = 1 ;
+		else
+			cout << "沒有這一行" << endl ;
+	}
+    int non = matrix[0][2] ;
+    int k = 1 ;
+    for(int i = 0 ; i < max_row ; i ++)
+    {
+    	int j = 0 ;
+        for(j = 0 ; j < max_col ; j ++)
+        {
+            if(k <= matrix[0][2] && i == matrix[k][0] && j == matrix[k][1])
+            {
+            	if(row_print[i]&&col_print[j])
+	                printf("%3d ",matrix[k][2]);
+                k ++ ;
+            }
+            else
+            	if(row_print[i]&&col_print[j])
+	                cout << "  0 " ;
+        }
+        if(row_print[i]&&col_print[j])
+        	cout << "\n" ;
+    }
+
+}
 //3.show the submatrix
 
 void t_matrix(int (*matrix)[3])
@@ -57,27 +108,34 @@ void t_matrix(int (*matrix)[3])
     int row = matrix[0][0] ;
     int col = matrix[0][1] ;
     int non = matrix[0][2] ;
-    int transpose[row][col];
-    for(int i = 0 ; i < row ; i ++)
-        for(int j = 0 ; j < col ; j ++)
-            transpose[i][j] = 0 ;
-    for(int i = 0 ; i <= matrix[non][1] ; i ++)
+    int answer[non+1][3] = {0};
+    answer[0][0] = row ;
+    answer[0][1] = col ;
+    answer[0][2] = non ;
+    int pos = 1	 ;
+    int check[col][2] = {0};
+    for(int i = 1 ; i < non+1 ; i ++)
+    	check[matrix[i][1]][0] ++ ;
+    for(int i = 0; i < col ; i ++)
     {
-        for(int j = 1 ; j < non+1 ; j ++)
-        {
-        	if(matrix[j][1]==i)
-        		transpose[i][matrix[j][0]] = matrix[j][2] ;
-        }
+    	check[i][1] = pos ;
+    	pos += check[i][0] ;	
     }
-    for(int i = 0 ; i < row ; i ++)
+    for(int i = 1 ; i < non+1 ; i ++)
     {
-    	for(int j = 0 ; j < col ; j ++)
-    		printf("%3d ", transpose[i][j]);
-    	cout << "\n" ;
+    	int index = matrix[i][1] ;
+    	answer[check[index][1]][0] = matrix[i][1] ;
+    	answer[check[index][1]][1] = matrix[i][0] ;
+    	answer[check[index][1]][2] = matrix[i][2] ;
+    	check[index][1] ++ ;
     }
+    cout << "matrix" << endl ;
+    print_matrix(matrix);
+    cout << "answer" << endl ;
+    print_matrix(answer);
 }//4.show the tranpose matrix(in progress)
 
-//5. given two matrix and do the addition
+//5.given two matrix and do the addition
 void matrix_addition(int (*a)[3] , int (*b)[3])
 {
 	if((a[0][0]!=b[0][0])||(a[0][1]!=b[0][1]))
@@ -89,10 +147,8 @@ void matrix_addition(int (*a)[3] , int (*b)[3])
 	{
 		int row = a[0][0];
 		int col = a[0][1];
-		int answer[row][col] ;
-		for(int i = 0 ; i < row ; i ++)
-			for(int j = 0 ; j < col ; j++)
-				answer[i][j] = 0 ;
+		//int non = a[0][2] + b[0][2] + 1;
+		int answer[row][col] = {0};
 		for(int i = 0 ; i < a[0][2] ; i ++)
 			answer[a[i+1][0]][a[i+1][1]] += a[i+1][2];
 		for(int i = 0 ; i < b[0][2] ; i ++)
@@ -102,7 +158,28 @@ void matrix_addition(int (*a)[3] , int (*b)[3])
 			for(int j = 0 ; j < col ; j++)
 				printf("%3d ", answer[i][j]);
 			cout << "\n" ;
-		}
+		}//by common matrix
+		
+		/*
+		int answer[non+1][3] = {0} ;
+		answer[0][0] = row ;
+		answer[0][1] = col ;
+		answer[0][2] = non ;
+		*/
+
+	}
+}
+
+void matrix_pow(int (*a)[3] , int k)
+{
+	if(a[0][0]!=a[0][1])
+	{
+		cout << "你輸入的矩陣不是方陣" << endl;
+		return ;
+	}
+	else
+	{
+		cout << "pow in progress" << endl ;
 	}
 }
 //6. given a square matrix and calculate M^k
@@ -113,7 +190,8 @@ int main()
 {
 	int choice = 0 ;
 
-    int matrix_a[4][3] = {{3,3,3},{0,0,1},{1,1,1},{2,2,1}};
+    int matrix_a[4][3] = {{3,3,10},{0,0,0},{1,1,1},{2,2,1}};
+    print_matrix(matrix_a);
     
     int matrix_count = 0 ;
    
@@ -142,7 +220,7 @@ int main()
 			int row,col,non ;
 		    cout << "請輸入row、column與non的數量(中間以空格隔開)" << endl ;
 		    cin >> row >> col >> non;
-		    int matrix[non+1][3];//如果说建中校庆纪念品所以你买多少钱帽t预购价660然后你买160哈哈哈哈哈嗯 其实我也没便宜多好我对我对可疑开到580
+		    int matrix[non+1][3] = {0};//如果说建中校庆纪念品所以你买多少钱帽t预购价660然后你买160哈哈哈哈哈嗯 其实我也没便宜多好我对我对可疑开到580
 		    matrix[0][0] = row ;//你所原购价的部分吗 我在想要开多少 帽t 还行吧 还有短t 还有风衣 没差啦 长t 后面有字的 字体没有对到我的频率
 		    matrix[0][1] = col ;//你没有嘻哈魂 这礼拜换谁 过一个礼拜了 哇哈哈哈哈哈哈哈哈 礼拜五好像没事也 好像可以可是我的台会有人看也 会有外人
 		    matrix[0][2] = non;//会有switch好朋友想一下我想一下很多看的都是国外的拿什么dj台 那个呀
@@ -151,8 +229,8 @@ int main()
 		    for(int i = 0 ; i < non ; i ++)
 		        cin >> matrix[i+1][0] >> matrix[i+1][1] >> matrix[i+1][2] ;
 
-		    int (*temp)[3] = (int(*)[3])malloc(sizeof(int)*4*3);
-		    memcpy(temp,matrix,sizeof(int)*12);
+		    int (*temp)[3] = (int(*)[3])malloc(sizeof(int)*(non+1)*3);
+		    memcpy(temp,matrix,sizeof(int)*(non+1)*3);
 		    m[matrix_count] = temp ;
 
 		    cout << "temp" << endl ;
@@ -162,7 +240,8 @@ int main()
 		    //m[matrix_count] = &p ;
 		    
 		    cout << "--------" << endl ;
-		    //print_matrix(matrix);
+		    cout << "matrix" << endl;
+		    print_matrix(matrix);
 			matrix_count ++ ;  		
     		//1. type in a matrix
     	}
@@ -172,6 +251,13 @@ int main()
     		string input ;
     		cin >> input ;
     		print_matrix(m[matrix_index(input)]) ;
+    	}
+    	else if(choice == 3)
+    	{
+    		cout << "請輸入矩陣" << endl ;
+    		string input ;
+    		cin >> input ;
+    		submatrix(m[matrix_index(input)]);
     	}
     	else if(choice == 4)
     	{
