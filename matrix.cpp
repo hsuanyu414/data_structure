@@ -6,6 +6,7 @@ using namespace std ;
 int (*m[128])[3] = {0} ;
 string name[128];
 
+
 int matrix_index(string input)
 {
 	cout << "you want to find " << input << endl;
@@ -14,6 +15,7 @@ int matrix_index(string input)
 			return i ;
 	return 0 ;
 }//for the given name to find the matrix index, if there are no matrix matched, it will return 0 as defalut.
+
 
 void print_menu()
 {
@@ -177,8 +179,61 @@ void matrix_pow(int (*a)[3] , int k)
 		cout << "你輸入的矩陣不是方陣" << endl;
 		return ;
 	}
+	else if(k == 0)
+	{
+		for(int i = 0 ; i < a[0][0] ; i ++)
+		{
+			for(int j = 0 ; j < a[0][1] ; j ++)
+			{
+				if(i == j)
+					cout << "   1";
+				else
+					cout << "   0";
+			}
+			cout << "\n" ;
+		}
+	}
 	else
 	{
+		int row = a[0][0] ;
+		int col = a[0][1] ;
+		int non = a[0][2] ;
+		int tranpose[non][3] = {0};
+		int answer[row*col+1][3] = {0};
+		memcpy(answer,a,sizeof(int)*(non+1)*3);
+		tranpose[0][0] = row ;
+		tranpose[0][1] = col ;
+		tranpose[0][2] = non ;
+		int pos = 1	 ;
+		int check[col][2] = {0};
+		for(int i = 1 ; i < non+1 ; i ++)
+			check[a[i][1]][0] ++ ;
+		for(int i = 0; i < col ; i ++)
+		{
+			check[i][1] = pos ;
+			pos += check[i][0] ;	
+		}
+		for(int i = 1 ; i < non+1 ; i ++)
+		{
+			int index = a[i][1] ;
+			tranpose[check[index][1]][0] = a[i][1] ;
+			tranpose[check[index][1]][1] = a[i][0] ;
+			tranpose[check[index][1]][2] = a[i][2] ;
+			check[index][1] ++ ;
+		}//transpose
+		for(int i = 0 ; i < k ; i ++)
+		{
+			int non_zero_count = 0 ;
+			while(answer[non_zero_count][2])
+				non_zero_count++
+			answer[0][2] = non_zero_count ;
+			int temp[col*row+1][3] = {0};
+			cout << "calcuate here" << endl;
+			//answer*tranpose=temp
+			for(int i = 0 ; i < )
+			memcpy(answer,temp,sizeof(int)*(row*col+1)*3);//after finish the calculation
+			//answer=temp
+		}
 		cout << "pow in progress" << endl ;
 	}
 }
@@ -275,6 +330,16 @@ int main()
 			string input_2 ;
 			cin >> input_2 ;
 			matrix_addition(m[matrix_index(input_1)],m[matrix_index(input_2)]);
+		}
+		else if(choice == 6)
+		{
+			int pow;
+			string input;
+			cout << "請輸入M的名字" << endl ;
+			cin >> input ;
+			cout << "請輸入k" << endl ;
+			cin >> pow ;
+			matrix_pow(m[matrix_index(input)], pow);
 		}
 		else if(choice == 7)
 		{
