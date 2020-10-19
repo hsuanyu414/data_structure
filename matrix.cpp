@@ -225,12 +225,11 @@ void matrix_pow(int (*a)[3] , int k)
 		{
 			int non_zero_count = 0 ;
 			while(answer[non_zero_count][2])
-				non_zero_count++
+				non_zero_count++ ;
 			answer[0][2] = non_zero_count ;
 			int temp[col*row+1][3] = {0};
 			cout << "calcuate here" << endl;
-			//answer*tranpose=temp
-			for(int i = 0 ; i < )
+			
 			memcpy(answer,temp,sizeof(int)*(row*col+1)*3);//after finish the calculation
 			//answer=temp
 		}
