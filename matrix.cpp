@@ -63,7 +63,7 @@ void submatrix(int (*matrix)[3])
 	for(int i = 0 ; i < max_col ; i ++)
 		col_print[i] = 0 ;
 
-	cout << "請輸入你想印出的子矩陣的列號(中間以空格隔開)結束請輸入-1" << endl ;
+	cout << "請輸入你想印出的子矩陣的列號(中間以空格隔開)結束請輸入-1 ";
 	int input = 0 ;
 	while(1)
 	{
@@ -75,7 +75,7 @@ void submatrix(int (*matrix)[3])
 		else
 			cout << "沒有這一列" << endl ;
 	}
-	cout << "請輸入你想印出的子矩陣的行號(中間以空格隔開)結束請輸入-1" << endl ;
+	cout << "請輸入你想印出的子矩陣的行號(中間以空格隔開)結束請輸入-1 " ;
 	while(1)
 	{
 		cin >> input ;
@@ -235,9 +235,7 @@ void matrix_pow(int (*a)[3] , int p)
 			for(int j = 0 ; j < row ; j ++)
 				for(int k = 0 ; k < col ; k ++)
 					answer[j][k] = temp[j][k] ;
-		}
-			cout << "finish" << endl;
-		for(int i = 0 ; i < row ; i ++)
+		}		for(int i = 0 ; i < row ; i ++)
 		{
 			for(int k = 0 ; k < col ; k ++)
 				printf("%3d ", answer[i][k]);
@@ -259,7 +257,6 @@ int main()
 	{
 		print_menu();
 		cin >> choice ;
-		cout << "The option you choose is " << choice << endl ;
 		if (choice == 0)
 			continue ;
 		else if(choice == 1)
@@ -296,45 +293,36 @@ int main()
 			memcpy(temp,matrix,sizeof(int)*(non+1)*3);
 			m[matrix_count] = temp ;
 
-			cout << "temp" << endl ;
-			print_matrix(temp) ;
-			//return 0 ;
-
-			//m[matrix_count] = &p ;
-			
-			cout << "--------" << endl ;
-			cout << "matrix" << endl;
-			print_matrix(matrix);
 			matrix_count ++ ;  		
 			//1. type in a matrix
 		}
 		else if(choice == 2)
 		{
-			cout << "請輸入你想印出的陣列" << endl ;
+			cout << "請輸入你想印出的陣列" ;
 			string input ;
 			cin >> input ;
 			print_matrix(m[matrix_index(input)]) ;
 		}
 		else if(choice == 3)
 		{
-			cout << "請輸入矩陣" << endl ;
+			cout << "請輸入矩陣 " ;
 			string input ;
 			cin >> input ;
 			submatrix(m[matrix_index(input)]);
 		}
 		else if(choice == 4)
 		{
-			cout << "請輸入你想轉置的矩陣" << endl ;
+			cout << "請輸入你想轉置的矩陣 " ;
 			string input ;
 			cin >> input ;
 			t_matrix(m[matrix_index(input)]);
 		}
 		else if(choice == 5)
 		{
-			cout << "請輸入M1的名字" << endl ;
+			cout << "請輸入M1的名字 " ;
 			string input_1 ;
 			cin >> input_1 ;
-			cout << "請輸入M2的名字" << endl ;
+			cout << "請輸入M2的名字 " ;
 			string input_2 ;
 			cin >> input_2 ;
 			matrix_addition(m[matrix_index(input_1)],m[matrix_index(input_2)]);
@@ -343,9 +331,9 @@ int main()
 		{
 			int pow;
 			string input;
-			cout << "請輸入M的名字" << endl ;
+			cout << "請輸入M的名字" ;
 			cin >> input ;
-			cout << "請輸入p" << endl ;
+			cout << "請輸入p" ;
 			cin >> pow ;
 			matrix_pow(m[matrix_index(input)], pow);
 		}
