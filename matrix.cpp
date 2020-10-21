@@ -1,5 +1,6 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <cstring>
+#include <string>
 
 using namespace std ;
 
@@ -161,25 +162,18 @@ void matrix_addition(int (*a)[3] , int (*b)[3])
 				printf("%3d ", answer[i][j]);
 			cout << "\n" ;
 		}//by common matrix
-		
-		/*
-		int answer[non+1][3] = {0} ;
-		answer[0][0] = row ;
-		answer[0][1] = col ;
-		answer[0][2] = non ;
-		*/
 
 	}
 }
 
-void matrix_pow(int (*a)[3] , int k)
+void matrix_pow(int (*a)[3] , int p)
 {
 	if(a[0][0]!=a[0][1])
 	{
 		cout << "你輸入的矩陣不是方陣" << endl;
 		return ;
 	}
-	else if(k == 0)
+	else if(p == 0)
 	{
 		for(int i = 0 ; i < a[0][0] ; i ++)
 		{
@@ -198,43 +192,43 @@ void matrix_pow(int (*a)[3] , int k)
 		int row = a[0][0] ;
 		int col = a[0][1] ;
 		int non = a[0][2] ;
-		int tranpose[non][3] = {0};
-		int answer[row*col+1][3] = {0};
-		memcpy(answer,a,sizeof(int)*(non+1)*3);
-		tranpose[0][0] = row ;
-		tranpose[0][1] = col ;
-		tranpose[0][2] = non ;
-		int pos = 1	 ;
-		int check[col][2] = {0};
-		for(int i = 1 ; i < non+1 ; i ++)
-			check[a[i][1]][0] ++ ;
-		for(int i = 0; i < col ; i ++)
-		{
-			check[i][1] = pos ;
-			pos += check[i][0] ;	
-		}
+		int answer[row][col] = {0} ;
+		int matrix[row][col] = {0} ;
+		for(int i = 0 ; i < row ; i ++)
+			for(int j = 0 ; j < col ; j ++)
+			{
+				answer[i][j] = 0 ;
+				matrix[i][j] = 0 ;
+			}
 		for(int i = 1 ; i < non+1 ; i ++)
 		{
-			int index = a[i][1] ;
-			tranpose[check[index][1]][0] = a[i][1] ;
-			tranpose[check[index][1]][1] = a[i][0] ;
-			tranpose[check[index][1]][2] = a[i][2] ;
-			check[index][1] ++ ;
-		}//transpose
-		for(int i = 0 ; i < k ; i ++)
-		{
-			int non_zero_count = 0 ;
-			while(answer[non_zero_count][2])
-				non_zero_count++ ;
-			answer[0][2] = non_zero_count ;
-			int temp[col*row+1][3] = {0};
-			cout << "calcuate here" << endl;
-			
-			memcpy(answer,temp,sizeof(int)*(row*col+1)*3);//after finish the calculation
-			//answer=temp
+			answer[a[i][0]][a[i][1]] = a[i][2];
+			matrix[a[i][0]][a[i][1]] = a[i][2];
 		}
-		cout << "pow in progress" << endl ;
+		for(int i = 1 ; i < p ; i ++)
+		{
+			int temp[row][col] = {0} ;	
+			for(int j = 0 ; j < row ; j ++)
+				for(int k = 0 ; k < col ; k ++)
+					for(int l = 0 ; l < row ; l ++)
+					{
+						temp[j][k] += answer[j][l]*matrix[l][k];
+						cout << answer[j][l] << " * " << matrix[l][k] << endl;
+						cout << i << j << "is "<< temp[j][k] << endl ;
+					}
+			for(int j = 0 ; j < row ; j ++)
+				for(int k = 0 ; k < col ; k ++)
+					answer[j][k] = temp[j][k] ;
+		}
+			cout << "finish" << endl;
+		for(int i = 0 ; i < row ; i ++)
+		{
+			for(int k = 0 ; k < col ; k ++)
+				printf("%4d", answer[i][k]);
+			cout << "\n" ;
+		}
 	}
+	return;
 }
 //6. given a square matrix and calculate M^k
 
@@ -243,10 +237,9 @@ void matrix_pow(int (*a)[3] , int k)
 int main()
 {
 	int choice = 0 ;
-
-	int matrix_a[4][3] = {{3,3,10},{0,0,0},{1,1,1},{2,2,1}};
-	print_matrix(matrix_a);
-	
+	int test[3][3] = {{2,2,2},{0,0,9},{1,1,7}};
+	matrix_pow(test,2);
+	return 0 ;
 	int matrix_count = 0 ;
    
 	while(1)
@@ -336,16 +329,12 @@ int main()
 			string input;
 			cout << "請輸入M的名字" << endl ;
 			cin >> input ;
-			cout << "請輸入k" << endl ;
+			cout << "請輸入p" << endl ;
 			cin >> pow ;
 			matrix_pow(m[matrix_index(input)], pow);
 		}
 		else if(choice == 7)
-		{
-			for(int i = 0 ; i < matrix_count ; i ++)
-				cout << name[i] << endl ;
 			break ;
-		}
 	}
 	
 	return 0 ;
