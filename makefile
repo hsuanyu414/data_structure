@@ -1,4 +1,4 @@
 .PHONY:all
 all:
-	g++ matrix.cpp
+	g++ hw6.cpp
 	./a.out
