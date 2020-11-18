@@ -4,14 +4,14 @@
 
 using namespace std ;
 
-int (*m[128])[3] = {0} ;
-string name[128];
+int (*m[256])[3] = {0} ;
+string name[256];
 
 
 int matrix_index(string input)
 {
 	//cout << "you want to find " << input << endl;
-	for(int i = 0 ; i < 128 ; i ++)
+	for(int i = 0 ; i < 256 ; i ++)
 		if(input == name[i])
 			return i ;
 	return 0 ;
