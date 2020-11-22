@@ -4,13 +4,9 @@
 #include <cstring>
 #include "stack.h"
 #include <stdio.h>
+#include "error.h"
 
 using namespace std ;
-
-int illegal(char* infix)
-{
-	return 1 ;
-}
 
 int getch (void)
 {
@@ -188,8 +184,21 @@ int main()
 				infix[index++] = a ;
 			}
 		}
-		// if(!illegal(infix))
-		if(1)
+		illegal_character(infix) ;
+		illegal_operand(infix) ;
+		first_character_an_operator(infix) ;
+		last_character_an_operator(infix) ;
+		right_parenthesis_followed_by_an_identifier(infix) ;
+		operator_followed_by_an_operator(infix) ;
+		left_parenthesis_followed_by_an_operator(infix) ;
+		identifier_followed_by_a_left_parenthesis(infix) ;
+		right_parenthesis_followed_by_a_left_parenthesis(infix) ;
+		operator_followed_by_a_right_parenthesis(infix) ;
+		left_parenthesis_followed_by_a_right_parenthesis(infix) ;
+		unmatched_parenthesis(infix) ;
+		too_long(infix) ;
+
+		if(error==0)
 		{
 			for(int i = 0 ; i < strlen(infix) ; i ++ )
 				infix_back[i] = infix[i] ;
@@ -213,11 +222,7 @@ int main()
 				printf("=%.0f\n", ans);
 		}
 		else
-		{
-			cout << "THERE IS SOMETHING WRONG" << endl ;//end up the counting and print out the error message
-		}
-
-
+			error = 0 ;
 	}
 
 
