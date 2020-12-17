@@ -215,10 +215,7 @@ int main()
 			infix_minus(infix_back,minus_infix);
 			infix_to_postfix(minus_infix , postfix);
 			float ans = postfix_to_ans(postfix) ;
-			if(ans-(int)ans != 0.0)
-				printf("=%.2f\n", ans);
-			else
-				printf("=%.0f\n", ans);
+			printf("=%.2f\n", ans);
 		}
 		else
 			error = 0 ;
