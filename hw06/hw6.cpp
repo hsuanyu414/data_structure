@@ -2,8 +2,8 @@
 #include <termios.h>
 #include <unistd.h> 
 #include <cstring>
-#include "stack.h"
 #include <stdio.h>
+#include "stack.h"
 #include "error.h"
 
 using namespace std ;
@@ -155,7 +155,6 @@ float postfix_to_ans(char* postfix)
 
 int main()
 {
-
 	while(1)
 	{
 		int index = 0 ;
