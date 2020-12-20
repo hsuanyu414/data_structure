@@ -32,7 +32,10 @@ int main()
 
 	file.open("product.txt",ios::in) ;
 	if(!file)
+	{
 		cout << "檔案開啟失敗" << endl ;
+		return 0 ;
+	}
 	else 
 	{
 		while(!file.eof())
