@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <queue> 
 
 using namespace std ;
 
@@ -36,11 +39,13 @@ public:
 	BST():root(0){};
 	tree_node* search(int key_) ;
 	tree_node* successor(tree_node *current);
+	tree_node* max_price() ;
 	void insert_bst(int key_ , int price , int amount) ;
 	void inorder_print() ;
 	void level_order() ;
 	void list_all() ;
 	void delete_bst(int key_);
+	void list_into_file(char* filename);
 };
 
 tree_node* BST::search(int key_)
@@ -159,7 +164,47 @@ void BST::list_all(void)
 		now = now->lchild ;
 	while(now != NULL)
 	{
-		printf("%03d %d %d\n", now->get_key() , now->get_price() , now->get_amount());
+		printf("product number: %03d, price: %d, amount:%d.\n", now->get_key() , now->get_price() , now->get_amount());
 		now = successor(now) ;
 	}
+}
+
+tree_node* BST::max_price(void)//return the node with the highest price
+{
+	tree_node *now = root ;
+	while(now->lchild != NULL)
+		now = now->lchild ;
+	tree_node *max = now ;
+	while(now != NULL)
+	{
+		if(now->price > max->price)
+			max = now ;
+		now = successor(now) ;
+	}
+	return max ;
+}
+
+void BST::list_into_file(char* filename)
+{
+	fstream newfile ;
+	newfile.open(filename , ios::out) ;
+	if(!newfile)
+		cout << "檔案開不了" << endl ;
+	else
+	{
+		std::queue<tree_node*> q ;
+		q.push(this->root) ;
+		while(!q.empty())
+		{
+			tree_node *now = q.front() ;
+			q.pop() ;
+			newfile << setw(3) << setfill('0') << now->get_key() << " " << now->get_price() << " " << now->get_amount() << endl ;
+			if(now->lchild != NULL)
+				q.push(now->lchild);
+			if(now->rchild != NULL)
+				q.push(now->rchild);
+		}
+
+	}
+	newfile.close() ;
 }

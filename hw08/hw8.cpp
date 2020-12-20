@@ -38,6 +38,8 @@ int main()
 		while(!file.eof())
 		{
 			file.getline(buffer , sizeof(buffer)) ;
+			if(strlen(buffer)<3)
+				continue ;
 			//cout << buffer << endl ;
 			int key_,price_,amount_ ;
 			char *p = strtok(buffer , " ");//切三次
@@ -172,15 +174,42 @@ int main()
 		}
 		else if(choice == 6 )//更改商品編號
 		{
-			cout << "choice 6" << endl ;
+			int bkey_,akey_,price_,amount_ ;
+			cout << "請輸入你想要更改的商品編號及更改後的編號" << endl ;
+			cin >> bkey_ >> akey_ ;
+			tree_node *target = store.search(bkey_);
+			if(target == NULL)
+				cout << "The product you want to modify the number is not exist in database" << endl ;
+			else
+			{
+				tree_node *check = store.search(akey_) ;
+				if(check == NULL)//這個商品編號沒有
+				{
+					price_ = target->get_price() ;
+					amount_ = target->get_amount() ;
+					store.delete_bst(bkey_);
+					store.insert_bst(akey_,price_,amount_);
+					printf("=== you have just modified the product number of product %03d: ===\n", bkey_);
+					cout << "=== the new data is ===" << endl ;
+					target = store.search(akey_) ;
+					print_data(target) ;
+				}
+				else
+					cout << "已經有產品使用這個商品編號了" << endl ;
+			}
 		}
 		else if(choice == 7)//找最貴的東西
 		{
-			cout << "choice 7" << endl ;
+			tree_node *max = store.max_price();
+			cout << "The product number with highest price: " ;
+			printf("%03d\n", max->get_key());
 		}
 		else if(choice == 8)//輸出至一個檔案
 		{
-			cout << "choice 8" << endl ;
+			cout << "請輸入輸出檔名" << endl ;
+			char filename[100] = { 0 } ;
+			cin >> filename ;
+			store.list_into_file(filename);
 		}
 		else if(choice == 9)//離開
 			break ;
