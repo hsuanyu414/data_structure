@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "tree.h"
+#include "bst.h"
 #include <termios.h>
 #include <unistd.h> 
 
